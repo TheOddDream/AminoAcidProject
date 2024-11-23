@@ -69,13 +69,19 @@ TEST(ProteinSequenceTest, DefaultConstructor) {
 }
 
 TEST(ProteinSequenceTest, InitializationConstructor) {
-    std::vector<ProteinogenicAminoAcid> vec{
-        ProteinogenicAminoAcid('A'), ProteinogenicAminoAcid('B')
-    };
+    std::vector<ProteinogenicAminoAcid*> vec;
+    vec.push_back(new ProteinogenicAminoAcid('A'));
+    vec.push_back(new ProteinogenicAminoAcid('B'));
+
     ProteinSequence ps(vec);
     EXPECT_EQ(ps.size(), 2);
     EXPECT_EQ(ps[0].getCode(), 'A');
     EXPECT_EQ(ps[1].getCode(), 'B');
+
+    // Cleanup original vector
+    for (auto ptr : vec) {
+        delete ptr;
+    }
 }
 
 TEST(ProteinSequenceTest, CopyConstructor) {
